@@ -1,6 +1,7 @@
+import { Diet } from '@screens/Diet'
 import { StatusBar } from 'react-native'
 import { ThemeProvider } from 'styled-components/native'
-import { Diet } from './src/screens/Diet'
+
 import theme from './src/theme'
 
 export default function App() {
