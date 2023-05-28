@@ -1,7 +1,13 @@
 import styled, { css } from 'styled-components/native'
 import { ArrowUpRight } from 'phosphor-react-native'
 
-import { COLORS_CARD, TypeCard } from '.'
+export type TypeCard = 'default' | 'navigate'
+
+export const COLORS_CARD = {
+  gray: 'gray-600',
+  green: 'green-light',
+  red: 'red-light'
+} as const
 
 interface ContainerProps {
   colorCard: keyof typeof COLORS_CARD
