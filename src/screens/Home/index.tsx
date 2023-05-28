@@ -4,6 +4,7 @@ import { Container, Title } from './styles'
 
 import { Header } from '@components/Header'
 import { CardStatistic } from '@components/CardStatistic'
+import { Button } from '@components/Button/Button'
 
 export function Home() {
   return (
@@ -19,6 +20,8 @@ export function Home() {
       />
 
       <Title>Refeições</Title>
+
+      <Button title="Nova refeição" typeButtons="solid" icon="plus" />
     </Container>
   )
 }
