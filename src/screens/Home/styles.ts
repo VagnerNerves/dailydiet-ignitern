@@ -17,3 +17,13 @@ export const Title = styled.Text`
     margin-bottom: 8px;
   `}
 `
+
+export const DateMeal = styled.Text`
+  ${props => css`
+    font-family: ${props.theme.FONT_FAMILY.bold};
+    font-size: ${props.theme.FONT_SIZE.titleS}px;
+
+    color: ${props.theme.COLORS['gray-100']};
+    margin-top: 32px;
+  `}
+`
