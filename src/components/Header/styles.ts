@@ -21,7 +21,7 @@ export const Photo = styled.Image`
   width: 40px;
   height: 40px;
 
-  border: 2px;
+  border-width: 2px;
   border-color: ${props => props.theme.COLORS['gray-100']};
   border-radius: 999px;
 `
