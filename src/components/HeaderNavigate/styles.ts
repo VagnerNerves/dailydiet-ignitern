@@ -40,6 +40,6 @@ export const ButtonBack = styled.TouchableOpacity`
   height: 24px;
 
   position: absolute;
-  left: 0;
-  top: 26;
+  left: 24px;
+  top: 26px;
 `
