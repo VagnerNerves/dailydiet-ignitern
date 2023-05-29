@@ -20,6 +20,7 @@ interface CardStatisticProps extends TouchableOpacityProps {
   description: string
   typeCard?: TypeCard
   colorCard?: keyof typeof COLORS_CARD
+  isFlex1?: boolean
 }
 
 export function CardStatistic({
@@ -27,6 +28,7 @@ export function CardStatistic({
   description,
   typeCard = 'default',
   colorCard = 'gray',
+  isFlex1 = false,
   ...rest
 }: CardStatisticProps) {
   const { COLORS } = useTheme()
@@ -35,6 +37,7 @@ export function CardStatistic({
     <Container
       colorCard={colorCard}
       disabled={typeCard === 'default'}
+      isFlex1={isFlex1}
       {...rest}
     >
       {typeCard === 'navigate' && (

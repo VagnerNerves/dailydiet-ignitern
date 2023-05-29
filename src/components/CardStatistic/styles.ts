@@ -11,9 +11,18 @@ export const COLORS_CARD = {
 
 interface ContainerProps {
   colorCard: keyof typeof COLORS_CARD
+  isFlex1: boolean
 }
 export const Container = styled.TouchableOpacity<ContainerProps>`
-  width: 100%;
+  ${props =>
+    props.isFlex1
+      ? css`
+          flex: 1;
+        `
+      : css`
+          width: 100%;
+        `}
+
   border-radius: 8px;
   padding: 20px 16px;
 
@@ -48,6 +57,8 @@ export const Description = styled.Text<TextProps>`
     font-family: ${props.theme.FONT_FAMILY.regular};
 
     margin-top: ${props.typeCard === 'default' ? 8 : 2}px;
+
+    text-align: center;
   `}
 `
 
