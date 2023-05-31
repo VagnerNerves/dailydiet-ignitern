@@ -26,6 +26,7 @@ export default {
     titleG: 32,
     titleM: 24,
     titleS: 18,
+    titleXS: 14,
     bodyM: 16,
     bodyS: 14,
     bodyXS: 12
