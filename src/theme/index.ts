@@ -25,6 +25,7 @@ export default {
   FONT_SIZE: {
     titleG: 32,
     titleM: 24,
+    title20: 20,
     titleS: 18,
     titleXS: 14,
     bodyM: 16,
