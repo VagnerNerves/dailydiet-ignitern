@@ -1,4 +1,4 @@
-import { TouchableOpacityProps } from 'react-native'
+import { TouchableOpacityProps, StyleProp, ViewStyle } from 'react-native'
 import { useTheme } from 'styled-components/native'
 import {
   ButtonArrowUpRight,
@@ -21,6 +21,8 @@ interface CardStatisticProps extends TouchableOpacityProps {
   typeCard?: TypeCard
   colorCard?: keyof typeof COLORS_CARD
   isFlex1?: boolean
+  style?: StyleProp<ViewStyle>
+  onPress?: () => void
 }
 
 export function CardStatistic({
@@ -29,7 +31,8 @@ export function CardStatistic({
   typeCard = 'default',
   colorCard = 'gray',
   isFlex1 = false,
-  ...rest
+  style,
+  onPress
 }: CardStatisticProps) {
   const { COLORS } = useTheme()
 
@@ -38,7 +41,8 @@ export function CardStatistic({
       colorCard={colorCard}
       disabled={typeCard === 'default'}
       isFlex1={isFlex1}
-      {...rest}
+      style={style}
+      onPress={onPress}
     >
       {typeCard === 'navigate' && (
         <ButtonArrowUpRight size={24} color={COLORS[COLORS_ARROW[colorCard]]} />
