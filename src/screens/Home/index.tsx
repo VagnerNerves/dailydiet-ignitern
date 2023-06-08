@@ -93,6 +93,10 @@ export function Home() {
     navigation.navigate('newmeal', { id: '' })
   }
 
+  function handleViewMeal(id: string) {
+    navigation.navigate('viewmeal', { id })
+  }
+
   return (
     <Container>
       <Header />
@@ -124,6 +128,7 @@ export function Home() {
             hour={item.hourFormatted}
             nameMeal={item.nameMeal}
             isDiet={item.isDiet}
+            onPress={() => handleViewMeal(item.id.toString())}
           />
         )}
         renderSectionHeader={({ section: { title } }) => (
