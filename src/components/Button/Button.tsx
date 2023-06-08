@@ -9,13 +9,25 @@ interface ButtonProps {
   typeButtons: TypeButton
   icon?: 'plus' | 'pencil' | 'trash'
   style?: StyleProp<ViewStyle>
+  onPress?: () => void
 }
 
-export function Button({ title, typeButtons, icon, style }: ButtonProps) {
+export function Button({
+  title,
+  typeButtons,
+  icon,
+  style,
+  onPress
+}: ButtonProps) {
   const { COLORS } = useTheme()
 
   return (
-    <ContainerButton activeOpacity={0.5} type={typeButtons} style={style}>
+    <ContainerButton
+      activeOpacity={0.5}
+      type={typeButtons}
+      style={style}
+      onPress={onPress}
+    >
       {icon === 'plus' && (
         <Plus
           size={18}
