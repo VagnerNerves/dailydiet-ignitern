@@ -1,9 +1,10 @@
 import styled, { css } from 'styled-components/native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 interface ContainerProps {
   isDiet: Boolean
 }
-export const Container = styled.View<ContainerProps>`
+export const Container = styled(SafeAreaView)<ContainerProps>`
   flex: 1;
 
   background-color: ${props =>
