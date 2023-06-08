@@ -8,8 +8,6 @@ import {
 
 import { HeaderNavigate } from '@components/HeaderNavigate'
 import { CardStatistic } from '@components/CardStatistic'
-import { Button } from '@components/Button/Button'
-import { Text } from 'react-native'
 
 export function Statistics() {
   return (
