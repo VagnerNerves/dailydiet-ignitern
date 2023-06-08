@@ -1,4 +1,5 @@
 import { Text, SectionList, View } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 
 import { Container, DateMeal, Title } from './styles'
 
@@ -82,6 +83,16 @@ export function Home() {
     }
   ]
 
+  const navigation = useNavigation()
+
+  function handleSatistic() {
+    navigation.navigate('statistics')
+  }
+
+  function handleNewMeal() {
+    navigation.navigate('newmeal', { id: '' })
+  }
+
   return (
     <Container>
       <Header />
@@ -92,11 +103,17 @@ export function Home() {
         title="90,86%"
         description="das refeições dentro da dieta"
         style={{ marginBottom: 40 }}
+        onPress={handleSatistic}
       />
 
       <Title>Refeições</Title>
 
-      <Button title="Nova refeição" typeButtons="solid" icon="plus" />
+      <Button
+        title="Nova refeição"
+        typeButtons="solid"
+        icon="plus"
+        onPress={handleNewMeal}
+      />
 
       <SectionList
         sections={DataMeal}
