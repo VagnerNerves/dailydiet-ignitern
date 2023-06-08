@@ -6,11 +6,18 @@ interface CardMealProps {
   hour: string
   nameMeal: string
   isDiet: Boolean
+  onPress?: () => void
 }
 
-export function CardMeal({ id, hour, nameMeal, isDiet }: CardMealProps) {
+export function CardMeal({
+  id,
+  hour,
+  nameMeal,
+  isDiet,
+  onPress
+}: CardMealProps) {
   return (
-    <ContainerButton>
+    <ContainerButton onPress={onPress}>
       <Hour>{hour}</Hour>
       <Divider />
       <NameMeal numberOfLines={1}>{nameMeal}</NameMeal>
