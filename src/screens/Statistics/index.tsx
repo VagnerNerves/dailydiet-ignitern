@@ -1,3 +1,7 @@
+import { useEffect, useState } from 'react'
+import { Alert } from 'react-native'
+import { HeaderNavigate } from '@components/HeaderNavigate'
+
 import {
   Container,
   ContainerCard,
@@ -6,17 +10,41 @@ import {
   Title
 } from './styles'
 
-import { HeaderNavigate } from '@components/HeaderNavigate'
 import { CardStatistic } from '@components/CardStatistic'
+import { StatisticsStorageDTO } from '@storage/statistics/statisticsStorageDTO'
+import { statisticsGet } from '@storage/statistics/statisticsGet'
 
 export function Statistics() {
+  const [statistics, setStatistics] = useState<StatisticsStorageDTO>()
+
+  async function fetchStatistics() {
+    try {
+      const dataStatistics: StatisticsStorageDTO = await statisticsGet()
+
+      if (dataStatistics) {
+        setStatistics(dataStatistics)
+      }
+    } catch (error) {
+      console.log(error)
+      Alert.alert('Estatísticas', 'Não foi possível buscar as estatísticas.')
+    }
+  }
+
+  useEffect(() => {
+    fetchStatistics()
+  }, [])
+
+  if (!statistics) {
+    return []
+  }
+
   return (
-    <Container isDiet={true}>
+    <Container isDiet={statistics.dietIsOk}>
       <HeaderNavigate
-        title="90,86%"
+        title={`${statistics.percentageDiet.toFixed(2)}%`}
         description="das refeições dentro da dieta"
         type="statistic"
-        color="green"
+        color={statistics.dietIsOk ? 'green' : 'red'}
       />
 
       <ContainerStatistics>
@@ -24,21 +52,24 @@ export function Statistics() {
 
         <ContainerCard>
           <CardStatistic
-            title="22"
+            title={statistics.bestDietSequence.toString()}
             description="melhor sequência de pratos dentro da dieta"
           />
 
-          <CardStatistic title="109" description="refeições registradas" />
+          <CardStatistic
+            title={statistics.totalMeal.toString()}
+            description="refeições registradas"
+          />
 
           <ContainerCardColumn>
             <CardStatistic
-              title="109"
+              title={statistics.totalMealIsOnDiet.toString()}
               description="refeições dentro da dieta"
               colorCard="green"
               isFlex1
             />
             <CardStatistic
-              title="109"
+              title={statistics.totalMealIsNotOnDiet.toString()}
               description="refeições fora da dieta"
               colorCard="red"
               isFlex1
