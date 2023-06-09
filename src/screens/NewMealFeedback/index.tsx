@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Button } from '@components/Button/Button'
+import { useNavigation, useRoute } from '@react-navigation/native'
+
 import {
   Container,
   ContainerDescription,
@@ -9,16 +10,25 @@ import {
   Title
 } from './styles'
 
+import { Button } from '@components/Button/Button'
+
 import imgIsDiet from '@assets/isdiet.png'
 import imgIsNotDiet from '@assets/isnotdiet.png'
 
+interface RouteParams {
+  isOnDiet: boolean
+}
+
 export function NewMealFeedback() {
-  const [isDiet, setISDiet] = useState<boolean>(false)
+  const navigation = useNavigation()
+  const route = useRoute()
+
+  const { isOnDiet } = route.params as RouteParams
 
   return (
     <Container>
       <ContainerFeedback>
-        {isDiet ? (
+        {isOnDiet ? (
           <>
             <Title color="green">Continue assim!</Title>
             <ContainerDescription>
@@ -42,12 +52,13 @@ export function NewMealFeedback() {
         )}
       </ContainerFeedback>
 
-      <Logo source={isDiet ? imgIsDiet : imgIsNotDiet} />
+      <Logo source={isOnDiet ? imgIsDiet : imgIsNotDiet} />
 
       <Button
         title="Ir para a página inicial"
         typeButtons="solid"
         style={{ width: undefined }}
+        onPress={() => navigation.navigate('home')}
       />
     </Container>
   )
