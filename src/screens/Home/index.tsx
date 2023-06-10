@@ -1,5 +1,6 @@
-import { Text, SectionList, View } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
+import { useState, useCallback } from 'react'
+import { SectionList, Alert } from 'react-native'
+import { useNavigation, useFocusEffect } from '@react-navigation/native'
 
 import { Container, DateMeal, Title } from './styles'
 
@@ -8,7 +9,12 @@ import { CardStatistic } from '@components/CardStatistic'
 import { Button } from '@components/Button/Button'
 import { CardMeal } from '@components/CardMeal'
 
+import { StatisticsStorageDTO } from '@storage/statistics/statisticsStorageDTO'
+import { statisticsGet } from '@storage/statistics/statisticsGet'
+
 export function Home() {
+  const [statistics, setStatistics] = useState<StatisticsStorageDTO>()
+
   const DataMeal = [
     {
       title: '12.08.22',
@@ -97,18 +103,39 @@ export function Home() {
     navigation.navigate('viewmeal', { id })
   }
 
+  async function fetchStatistics() {
+    try {
+      const dataStatistics: StatisticsStorageDTO = await statisticsGet()
+
+      if (dataStatistics) {
+        setStatistics(dataStatistics)
+      }
+    } catch (error) {
+      console.log(error)
+      Alert.alert('Estatísticas', 'Não foi possível buscar as estatísticas.')
+    }
+  }
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchStatistics()
+    }, [])
+  )
+
   return (
     <Container>
       <Header />
 
-      <CardStatistic
-        typeCard="navigate"
-        colorCard="green"
-        title="90,86%"
-        description="das refeições dentro da dieta"
-        style={{ marginBottom: 40 }}
-        onPress={handleSatistic}
-      />
+      {statistics && (
+        <CardStatistic
+          typeCard="navigate"
+          colorCard={statistics.dietIsOk ? 'green' : 'red'}
+          title={`${statistics.percentageDiet.toFixed(2)}%`}
+          description="das refeições dentro da dieta"
+          style={{ marginBottom: 40 }}
+          onPress={handleSatistic}
+        />
+      )}
 
       <Title>Refeições</Title>
 
