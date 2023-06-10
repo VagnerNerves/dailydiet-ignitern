@@ -7,8 +7,8 @@ interface ContainerProps {
 
 const COLORS_THEME = {
   default: 'gray-700',
-  green: 'green-mid',
-  red: 'red-mid'
+  green: 'green-light',
+  red: 'red-light'
 } as const
 
 export const Container = styled(SafeAreaView)<ContainerProps>`
