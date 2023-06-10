@@ -19,7 +19,6 @@ import { InputDateTime } from '@components/InputDateTime'
 import { Select, TYPE_OPTIONS_SELECT } from '@components/Select'
 import { MealStorageDTO } from '@storage/meal/mealStorageDTO'
 import { mealCreate } from '@storage/meal/mealCreate'
-import { mealsGetAll } from '@storage/meal/mealsGetAll'
 
 export function NewMeal() {
   const [name, setName] = useState<string>('')
@@ -45,6 +44,14 @@ export function NewMeal() {
 
       if (!date) {
         return Alert.alert('Cadastrar refeição', 'Informe a Data da refeição.')
+      }
+
+      const dateNow = new Date()
+      if (date > dateNow) {
+        return Alert.alert(
+          'Cadastrar refeição',
+          'Informe uma data atual ou anterior.'
+        )
       }
 
       if (!hour) {
