@@ -52,7 +52,10 @@ export function Statistics() {
   return (
     <Container colors={statistics.dietIsOk ? 'green' : 'red'}>
       <HeaderNavigate
-        title={`${statistics.percentageDiet.toFixed(2)}%`}
+        title={`${statistics.percentageDiet.toLocaleString('pt-BR', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        })}%`}
         description="das refeições dentro da dieta"
         type="statistic"
         color={statistics.dietIsOk ? 'green' : 'red'}

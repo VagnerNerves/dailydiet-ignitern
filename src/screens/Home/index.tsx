@@ -130,7 +130,10 @@ export function Home() {
         <CardStatistic
           typeCard="navigate"
           colorCard={statistics.dietIsOk ? 'green' : 'red'}
-          title={`${statistics.percentageDiet.toFixed(2)}%`}
+          title={`${statistics.percentageDiet.toLocaleString('pt-BR', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+          })}%`}
           description="das refeições dentro da dieta"
           style={{ marginBottom: 40 }}
           onPress={handleSatistic}
