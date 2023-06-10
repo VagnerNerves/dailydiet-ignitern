@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Alert } from 'react-native'
-import { HeaderNavigate } from '@components/HeaderNavigate'
+import { useNavigation } from '@react-navigation/native'
 
 import {
   Container,
@@ -10,12 +10,18 @@ import {
   Title
 } from './styles'
 
+import { HeaderNavigate } from '@components/HeaderNavigate'
 import { CardStatistic } from '@components/CardStatistic'
+import { Loading } from '@components/Loading'
+
 import { StatisticsStorageDTO } from '@storage/statistics/statisticsStorageDTO'
 import { statisticsGet } from '@storage/statistics/statisticsGet'
 
 export function Statistics() {
+  const [isLoadingStatistics, setIsLoadingStatistics] = useState<boolean>(true)
   const [statistics, setStatistics] = useState<StatisticsStorageDTO>()
+
+  const navigation = useNavigation()
 
   async function fetchStatistics() {
     try {
@@ -23,10 +29,15 @@ export function Statistics() {
 
       if (dataStatistics) {
         setStatistics(dataStatistics)
+      } else {
+        navigation.navigate('home')
       }
     } catch (error) {
       console.log(error)
       Alert.alert('Estatísticas', 'Não foi possível buscar as estatísticas.')
+      navigation.navigate('home')
+    } finally {
+      setIsLoadingStatistics(false)
     }
   }
 
@@ -34,12 +45,12 @@ export function Statistics() {
     fetchStatistics()
   }, [])
 
-  if (!statistics) {
-    return []
+  if (isLoadingStatistics || !statistics) {
+    return <Loading />
   }
 
   return (
-    <Container isDiet={statistics.dietIsOk}>
+    <Container colors={statistics.dietIsOk ? 'green' : 'red'}>
       <HeaderNavigate
         title={`${statistics.percentageDiet.toFixed(2)}%`}
         description="das refeições dentro da dieta"

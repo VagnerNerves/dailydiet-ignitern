@@ -2,16 +2,19 @@ import styled from 'styled-components/native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 interface ContainerProps {
-  isDiet: Boolean
+  colors: 'default' | 'green' | 'red'
 }
+
+const COLORS_THEME = {
+  default: 'gray-700',
+  green: 'green-mid',
+  red: 'red-mid'
+} as const
 
 export const Container = styled(SafeAreaView)<ContainerProps>`
   flex: 1;
 
-  background-color: ${props =>
-    props.isDiet
-      ? props.theme.COLORS['green-mid']
-      : props.theme.COLORS['red-mid']};
+  background-color: ${props => props.theme.COLORS[COLORS_THEME[props.colors]]};
 `
 
 export const ContainerStatistics = styled.View`
