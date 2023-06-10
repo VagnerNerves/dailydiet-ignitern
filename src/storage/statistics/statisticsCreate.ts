@@ -53,8 +53,6 @@ export async function statisticsCreate() {
       dietIsOk
     }
 
-    console.log(statisticsData)
-
     await AsyncStorage.setItem(
       STATISTICS_COLLECTION,
       JSON.stringify(statisticsData)
