@@ -6,6 +6,7 @@ import { mealsGetAll } from './mealsGetAll'
 import { MealStorageDTO } from './mealStorageDTO'
 
 import { statisticsCreate } from '@storage/statistics/statisticsCreate'
+import { listmealCreate } from '@storage/listmeal/listmealCreate'
 
 export async function mealCreate(meal: MealStorageDTO) {
   try {
@@ -23,6 +24,7 @@ export async function mealCreate(meal: MealStorageDTO) {
 
     await AsyncStorage.setItem(MEAL_COLLECTION, storage)
     await statisticsCreate()
+    await listmealCreate()
   } catch (error) {
     throw error
   }
