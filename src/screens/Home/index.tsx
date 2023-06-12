@@ -2,6 +2,8 @@ import { useState, useCallback } from 'react'
 import { SectionList, Alert } from 'react-native'
 import { useNavigation, useFocusEffect } from '@react-navigation/native'
 
+import { format } from 'date-fns'
+
 import { Container, DateMeal, Title } from './styles'
 
 import { Header } from '@components/Header'
@@ -10,84 +12,14 @@ import { Button } from '@components/Button/Button'
 import { CardMeal } from '@components/CardMeal'
 
 import { StatisticsStorageDTO } from '@storage/statistics/statisticsStorageDTO'
+import { ListMealStorageDTO } from '@storage/listmeal/listmealStorageDTO'
+
 import { statisticsGet } from '@storage/statistics/statisticsGet'
+import { listmealGet } from '@storage/listmeal/listmealGet'
 
 export function Home() {
   const [statistics, setStatistics] = useState<StatisticsStorageDTO>()
-
-  const DataMeal = [
-    {
-      title: '12.08.22',
-      data: [
-        {
-          id: 1,
-          dateFormatted: '12.08.22',
-          hourFormatted: '20:00',
-          nameMeal: 'X-tudo',
-          isDiet: false
-        },
-        {
-          id: 2,
-          dateFormatted: '12.08.22',
-          hourFormatted: '16:00',
-          nameMeal: 'Whey protein com leite',
-          isDiet: true
-        }
-      ]
-    },
-    {
-      title: '11.08.22',
-      data: [
-        {
-          id: 3,
-          dateFormatted: '12.08.22',
-          hourFormatted: '20:00',
-          nameMeal: 'X-tudo',
-          isDiet: false
-        },
-        {
-          id: 4,
-          dateFormatted: '12.08.22',
-          hourFormatted: '16:00',
-          nameMeal: 'Whey protein com leite',
-          isDiet: true
-        },
-        {
-          id: 5,
-          dateFormatted: '12.08.22',
-          hourFormatted: '12:00',
-          nameMeal: 'Salada cesar com frango pessado e exatamente correto',
-          isDiet: true
-        }
-      ]
-    },
-    {
-      title: '10.08.22',
-      data: [
-        {
-          id: 3,
-          dateFormatted: '12.08.22',
-          hourFormatted: '20:00',
-          nameMeal: 'X-tudo',
-          isDiet: false
-        },
-        {
-          id: 4,
-          dateFormatted: '12.08.22',
-          hourFormatted: '16:00',
-          nameMeal: 'Whey protein com leite',
-          isDiet: true
-        },
-        {
-          id: 5,
-          dateFormatted: '12.08.22',
-          hourFormatted: '12:00',
-          nameMeal: 'Salada cesar com frango pessado e exatamente correto',
-          isDiet: true
-        }
-      ]
-    }
-  ]
+  const [listMeal, setListMeal] = useState<ListMealStorageDTO[]>()
 
   const navigation = useNavigation()
 
@@ -116,9 +48,26 @@ export function Home() {
     }
   }
 
+  async function fetchListMeal() {
+    try {
+      const dataListMeal: ListMealStorageDTO[] = await listmealGet()
+
+      if (dataListMeal) {
+        setListMeal(dataListMeal)
+      }
+    } catch (error) {
+      console.log(error)
+      Alert.alert(
+        'Lista Refeições',
+        'Não foi possível buscar a lista de refeições.'
+      )
+    }
+  }
+
   useFocusEffect(
     useCallback(() => {
       fetchStatistics()
+      fetchListMeal()
     }, [])
   )
 
@@ -149,24 +98,26 @@ export function Home() {
         onPress={handleNewMeal}
       />
 
-      <SectionList
-        sections={DataMeal}
-        keyExtractor={item => item.id.toString()}
-        renderItem={({ item }) => (
-          <CardMeal
-            id={item.id.toString()}
-            hour={item.hourFormatted}
-            nameMeal={item.nameMeal}
-            isDiet={item.isDiet}
-            onPress={() => handleViewMeal(item.id.toString())}
-          />
-        )}
-        renderSectionHeader={({ section: { title } }) => (
-          <DateMeal>{title}</DateMeal>
-        )}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={[{ paddingBottom: 50 }]}
-      />
+      {listMeal && (
+        <SectionList
+          sections={listMeal}
+          keyExtractor={item => item.id.toString()}
+          renderItem={({ item }) => (
+            <CardMeal
+              id={item.id.toString()}
+              hour={format(new Date(item.hour), "HH':'mm")}
+              nameMeal={item.name}
+              isDiet={item.isOnDiet}
+              onPress={() => handleViewMeal(item.id)}
+            />
+          )}
+          renderSectionHeader={({ section: { title } }) => (
+            <DateMeal>{title}</DateMeal>
+          )}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={[{ paddingBottom: 50 }]}
+        />
+      )}
     </Container>
   )
 }
