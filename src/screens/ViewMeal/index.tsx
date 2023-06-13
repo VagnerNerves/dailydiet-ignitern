@@ -1,4 +1,10 @@
-import { HeaderNavigate } from '@components/HeaderNavigate'
+import { useEffect, useState } from 'react'
+import { Alert } from 'react-native'
+
+import { useNavigation, useRoute } from '@react-navigation/native'
+
+import { format } from 'date-fns'
+
 import {
   Container,
   ContainerData,
@@ -7,29 +13,74 @@ import {
   TextDefault,
   Title
 } from './styles'
+
+import { HeaderNavigate } from '@components/HeaderNavigate'
 import { Button } from '@components/Button/Button'
 import { Tag } from '@components/Tag'
 
+import { MealStorageDTO } from '@storage/meal/mealStorageDTO'
+
+import { mealGet } from '@storage/meal/mealGet'
+import { Loading } from '@components/Loading'
+
+interface RouteParams {
+  id: string
+}
+
 export function ViewMeal() {
+  const navigation = useNavigation()
+  const route = useRoute()
+
+  const [meal, setMeal] = useState<MealStorageDTO>()
+
+  const { id } = route.params as RouteParams
+
+  async function featchSearchMeal() {
+    try {
+      const storageMeal = await mealGet(id)
+
+      if (storageMeal) {
+        setMeal(storageMeal)
+      } else {
+        navigation.navigate('home')
+      }
+    } catch (error) {
+      console.log(error)
+      Alert.alert('Buscar Refeição', 'Não foi possível buscar a refeição.')
+    }
+  }
+
+  useEffect(() => {
+    featchSearchMeal()
+  }, [])
+
+  if (!meal) {
+    return <Loading />
+  }
+
   return (
-    <Container isDiet={true}>
+    <Container isDiet={meal.isOnDiet}>
       <HeaderNavigate title="Refeição" />
       <ContainerViewMeal>
         <ContainerData showsVerticalScrollIndicator={false}>
           <ContainerInfo>
-            <Title size="20">Sanduíche</Title>
-            <TextDefault>
-              Sanduíche de pão integral com atum e salada de alface e tomate
-            </TextDefault>
+            <Title size="20">{meal.name}</Title>
+            <TextDefault>{meal.description}</TextDefault>
           </ContainerInfo>
 
           <ContainerInfo>
-            <Title size="14">Sanduíche</Title>
-            <TextDefault>12/08/2022 às 16:00</TextDefault>
+            <Title size="14">Data e Hora</Title>
+            <TextDefault>{`${format(
+              new Date(meal.date),
+              "dd'/'MM'/'yyyy"
+            )} às ${format(new Date(meal.hour), "HH':'mm")}`}</TextDefault>
           </ContainerInfo>
 
           <ContainerInfo>
-            <Tag title="dentro da dieta" color="green" />
+            <Tag
+              title={meal.isOnDiet ? 'dentro da dieta' : 'fora da dieta'}
+              color={meal.isOnDiet ? 'green' : 'red'}
+            />
           </ContainerInfo>
         </ContainerData>
 
