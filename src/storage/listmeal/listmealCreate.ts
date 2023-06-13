@@ -74,7 +74,10 @@ export async function listmealCreate() {
       []
     )
 
-    AsyncStorage.setItem(LISTMEAL_COLLECTION, JSON.stringify(dataListMeal))
+    await AsyncStorage.setItem(
+      LISTMEAL_COLLECTION,
+      JSON.stringify(dataListMeal)
+    )
   } catch (error) {
     throw error
   }
