@@ -11,6 +11,10 @@ export async function statisticsCreate() {
   try {
     const meals: MealStorageDTO[] = await mealsGetAll()
 
+    if (meals.length <= 0) {
+      return await AsyncStorage.removeItem(STATISTICS_COLLECTION)
+    }
+
     let percentageDiet = 0
     let sequenceInicial = 0
     let bestDietSequence = 0

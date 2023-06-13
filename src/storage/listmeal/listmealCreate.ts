@@ -12,6 +12,10 @@ export async function listmealCreate() {
   try {
     let dataMeals: MealStorageDTO[] = await mealsGetAll()
 
+    if (dataMeals.length <= 0) {
+      return await AsyncStorage.removeItem(LISTMEAL_COLLECTION)
+    }
+
     //Order by Date
     dataMeals.sort((a, b) => {
       const dateA = new Date(a.date)
