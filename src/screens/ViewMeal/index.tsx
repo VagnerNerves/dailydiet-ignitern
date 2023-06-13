@@ -22,6 +22,7 @@ import { MealStorageDTO } from '@storage/meal/mealStorageDTO'
 
 import { mealGet } from '@storage/meal/mealGet'
 import { Loading } from '@components/Loading'
+import { mealRemove } from '@storage/meal/mealRemove'
 
 interface RouteParams {
   id: string
@@ -34,6 +35,34 @@ export function ViewMeal() {
   const [meal, setMeal] = useState<MealStorageDTO>()
 
   const { id } = route.params as RouteParams
+
+  async function handleRemoveMeal() {
+    Alert.alert(
+      'Excluir refeição',
+      'Deseja realmente excluir o registro da refeição?',
+      [
+        {
+          text: 'Cancelar',
+          style: 'cancel'
+        },
+        {
+          text: 'Sim, excluir',
+          onPress: () => RemoveMeal()
+        }
+      ]
+    )
+  }
+
+  async function RemoveMeal() {
+    try {
+      await mealRemove(id)
+
+      navigation.navigate('home')
+    } catch (error) {
+      console.log(error)
+      Alert.alert('Excluir Refeição', 'Não foi possível excluir a refeição.')
+    }
+  }
 
   async function featchSearchMeal() {
     try {
@@ -85,7 +114,12 @@ export function ViewMeal() {
         </ContainerData>
 
         <Button title="Editar refeição" typeButtons="solid" icon="pencil" />
-        <Button title="Excluir refeição" typeButtons="outline" icon="trash" />
+        <Button
+          title="Excluir refeição"
+          typeButtons="outline"
+          icon="trash"
+          onPress={handleRemoveMeal}
+        />
       </ContainerViewMeal>
     </Container>
   )
