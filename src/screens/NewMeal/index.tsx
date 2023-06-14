@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Alert } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 
 import uuid from 'react-native-uuid'
 
@@ -19,6 +19,12 @@ import { InputDateTime } from '@components/InputDateTime'
 import { Select, TYPE_OPTIONS_SELECT } from '@components/Select'
 import { MealStorageDTO } from '@storage/meal/mealStorageDTO'
 import { mealCreate } from '@storage/meal/mealCreate'
+import { mealGet } from '@storage/meal/mealGet'
+import { mealUpdate } from '@storage/meal/mealUpdate'
+
+interface RouteParams {
+  id: string
+}
 
 export function NewMeal() {
   const [name, setName] = useState<string>('')
@@ -28,47 +34,48 @@ export function NewMeal() {
   const [selectOnDiet, setSelectOnDiet] = useState<TYPE_OPTIONS_SELECT>('')
 
   const navigation = useNavigation()
+  const route = useRoute()
+
+  const { id } = route.params as RouteParams
 
   async function handleNewMeal() {
     try {
+      const titleAlert = id ? 'Salvar alterações' : 'Cadastrar refeição'
+
       if (name.trim().length === 0) {
-        return Alert.alert('Cadastrar refeição', 'Informe o Nome da refeição.')
+        return Alert.alert(titleAlert, 'Informe o Nome da refeição.')
       }
 
       if (description.trim().length === 0) {
-        return Alert.alert(
-          'Cadastrar refeição',
-          'Informe a Descrição da refeição.'
-        )
+        return Alert.alert(titleAlert, 'Informe a Descrição da refeição.')
       }
 
       if (!date) {
-        return Alert.alert('Cadastrar refeição', 'Informe a Data da refeição.')
+        return Alert.alert(titleAlert, 'Informe a Data da refeição.')
       }
 
       const dateNow = new Date()
       if (date > dateNow) {
-        return Alert.alert(
-          'Cadastrar refeição',
-          'Informe uma data atual ou anterior.'
-        )
+        return Alert.alert(titleAlert, 'Informe uma data atual ou anterior.')
       }
 
       if (!hour) {
-        return Alert.alert('Cadastrar refeição', 'Informe a Hora da refeição.')
+        return Alert.alert(titleAlert, 'Informe a Hora da refeição.')
       }
 
       if (selectOnDiet === '') {
         return Alert.alert(
-          'Cadastrar refeição',
+          titleAlert,
           'Informe se a refeição está dentro da dieta.'
         )
       }
 
       const isOnDiet = selectOnDiet === '1' ? true : false
 
+      const idMeal = id ? id : uuid.v4().toString()
+
       const dataMeal: MealStorageDTO = {
-        id: uuid.v4().toString(),
+        id: idMeal,
         name: name.trim(),
         description: description.trim(),
         date,
@@ -76,7 +83,7 @@ export function NewMeal() {
         isOnDiet
       }
 
-      await mealCreate(dataMeal)
+      id ? await mealUpdate(dataMeal) : await mealCreate(dataMeal)
 
       navigation.navigate('newmealfeedback', { isOnDiet })
     } catch (error) {
@@ -85,9 +92,33 @@ export function NewMeal() {
     }
   }
 
+  async function fecthMeal() {
+    try {
+      const mealStorage = await mealGet(id)
+
+      setName(mealStorage.name)
+      setDescription(mealStorage.description)
+      setDate(new Date(mealStorage.date))
+      setHour(new Date(mealStorage.hour))
+      setSelectOnDiet(mealStorage.isOnDiet ? '1' : '2')
+    } catch (error) {
+      console.log(error)
+      Alert.alert(
+        'Editar Refeição',
+        'Não foi possivel buscar os dados da refeição para edição.'
+      )
+    }
+  }
+
+  useEffect(() => {
+    if (id) {
+      fecthMeal()
+    }
+  }, [])
+
   return (
     <Container>
-      <HeaderNavigate title="Nova refeição" />
+      <HeaderNavigate title={id ? 'Editar refeição' : 'Nova refeição'} />
 
       <ContainerNewMeal>
         <ContainerForm>
@@ -134,7 +165,7 @@ export function NewMeal() {
         </ContainerForm>
 
         <Button
-          title="Cadastrar refeição"
+          title={id ? 'Salvar alterações' : 'Cadastrar refeição'}
           typeButtons="solid"
           onPress={handleNewMeal}
         />
