@@ -28,3 +28,18 @@ export const DateMeal = styled.Text`
     margin-top: 32px;
   `}
 `
+
+export const ContainerEmpty = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+`
+
+export const TextEmpty = styled.Text`
+  ${props => css`
+    font-family: ${props.theme.FONT_FAMILY.regular};
+    font-size: ${props.theme.FONT_SIZE.bodyS}px;
+
+    color: ${props.theme.COLORS['gray-100']};
+  `}
+`

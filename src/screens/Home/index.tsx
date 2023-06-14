@@ -4,7 +4,7 @@ import { useNavigation, useFocusEffect } from '@react-navigation/native'
 
 import { format } from 'date-fns'
 
-import { Container, DateMeal, Title } from './styles'
+import { Container, ContainerEmpty, DateMeal, TextEmpty, Title } from './styles'
 
 import { Header } from '@components/Header'
 import { CardStatistic } from '@components/CardStatistic'
@@ -74,15 +74,18 @@ export function Home() {
   return (
     <Container>
       <Header />
-
-      {statistics && (
+      {statistics && statistics.totalMeal > 0 && (
         <CardStatistic
           typeCard="navigate"
           colorCard={statistics.dietIsOk ? 'green' : 'red'}
-          title={`${statistics.percentageDiet.toLocaleString('pt-BR', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-          })}%`}
+          title={`${
+            statistics.percentageDiet
+              ? statistics.percentageDiet.toLocaleString('pt-BR', {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2
+                })
+              : 0
+          }%`}
           description="das refeições dentro da dieta"
           style={{ marginBottom: 40 }}
           onPress={handleSatistic}
@@ -115,7 +118,12 @@ export function Home() {
             <DateMeal>{title}</DateMeal>
           )}
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={[{ paddingBottom: 50 }]}
+          contentContainerStyle={[{ paddingBottom: 50, flex: 1 }]}
+          ListEmptyComponent={() => (
+            <ContainerEmpty>
+              <TextEmpty>Que tal cadastrar uma nova refeição?</TextEmpty>
+            </ContainerEmpty>
+          )}
         />
       )}
     </Container>
