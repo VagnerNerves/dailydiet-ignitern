@@ -23,6 +23,7 @@ import { MealStorageDTO } from '@storage/meal/mealStorageDTO'
 import { mealGet } from '@storage/meal/mealGet'
 import { Loading } from '@components/Loading'
 import { mealRemove } from '@storage/meal/mealRemove'
+import { ModalOptions } from '@components/ModalOptions'
 
 interface RouteParams {
   id: string
@@ -33,25 +34,9 @@ export function ViewMeal() {
   const route = useRoute()
 
   const [meal, setMeal] = useState<MealStorageDTO>()
+  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false)
 
   const { id } = route.params as RouteParams
-
-  async function handleRemoveMeal() {
-    Alert.alert(
-      'Excluir refeição',
-      'Deseja realmente excluir o registro da refeição?',
-      [
-        {
-          text: 'Cancelar',
-          style: 'cancel'
-        },
-        {
-          text: 'Sim, excluir',
-          onPress: () => RemoveMeal()
-        }
-      ]
-    )
-  }
 
   async function RemoveMeal() {
     try {
@@ -127,9 +112,18 @@ export function ViewMeal() {
           title="Excluir refeição"
           typeButtons="outline"
           icon="trash"
-          onPress={handleRemoveMeal}
+          onPress={() => setModalIsOpen(!modalIsOpen)}
         />
       </ContainerViewMeal>
+
+      <ModalOptions
+        visible={modalIsOpen}
+        setVisible={() => setModalIsOpen(!modalIsOpen)}
+        message="Deseja realmente excluir o registro da refeição?"
+        titleCancelButton="Cancelar"
+        titleOKButton="Sim, excluir"
+        onHandleOk={() => RemoveMeal()}
+      />
     </Container>
   )
 }
