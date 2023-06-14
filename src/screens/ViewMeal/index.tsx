@@ -64,6 +64,10 @@ export function ViewMeal() {
     }
   }
 
+  function handleEditMeal() {
+    navigation.navigate('newmeal', { id })
+  }
+
   async function featchSearchMeal() {
     try {
       const storageMeal = await mealGet(id)
@@ -113,7 +117,12 @@ export function ViewMeal() {
           </ContainerInfo>
         </ContainerData>
 
-        <Button title="Editar refeição" typeButtons="solid" icon="pencil" />
+        <Button
+          title="Editar refeição"
+          typeButtons="solid"
+          icon="pencil"
+          onPress={handleEditMeal}
+        />
         <Button
           title="Excluir refeição"
           typeButtons="outline"
