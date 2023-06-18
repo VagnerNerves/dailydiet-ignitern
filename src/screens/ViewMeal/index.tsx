@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Alert } from 'react-native'
-
 import { useNavigation, useRoute } from '@react-navigation/native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { format } from 'date-fns'
 
@@ -32,6 +32,7 @@ interface RouteParams {
 export function ViewMeal() {
   const navigation = useNavigation()
   const route = useRoute()
+  const insets = useSafeAreaInsets()
 
   const [meal, setMeal] = useState<MealStorageDTO>()
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false)
@@ -77,7 +78,7 @@ export function ViewMeal() {
   }
 
   return (
-    <Container isDiet={meal.isOnDiet}>
+    <Container isDiet={meal.isOnDiet} style={{ paddingTop: insets.top }}>
       <HeaderNavigate title="Refeição" />
       <ContainerViewMeal>
         <ContainerData showsVerticalScrollIndicator={false}>

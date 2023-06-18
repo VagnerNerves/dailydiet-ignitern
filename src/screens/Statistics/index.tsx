@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Alert } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import {
   Container,
@@ -22,6 +23,7 @@ export function Statistics() {
   const [statistics, setStatistics] = useState<StatisticsStorageDTO>()
 
   const navigation = useNavigation()
+  const insets = useSafeAreaInsets()
 
   async function fetchStatistics() {
     try {
@@ -50,7 +52,10 @@ export function Statistics() {
   }
 
   return (
-    <Container colors={statistics.dietIsOk ? 'green' : 'red'}>
+    <Container
+      colors={statistics.dietIsOk ? 'green' : 'red'}
+      style={{ paddingTop: insets.top }}
+    >
       <HeaderNavigate
         title={`${statistics.percentageDiet.toLocaleString('pt-BR', {
           minimumFractionDigits: 2,

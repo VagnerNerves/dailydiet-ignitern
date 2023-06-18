@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Alert } from 'react-native'
 import { useNavigation, useRoute } from '@react-navigation/native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import uuid from 'react-native-uuid'
 
@@ -35,6 +36,8 @@ export function NewMeal() {
 
   const navigation = useNavigation()
   const route = useRoute()
+
+  const insets = useSafeAreaInsets()
 
   const { id } = route.params as RouteParams
 
@@ -117,7 +120,7 @@ export function NewMeal() {
   }, [])
 
   return (
-    <Container>
+    <Container style={{ paddingTop: insets.top }}>
       <HeaderNavigate title={id ? 'Editar refeição' : 'Nova refeição'} />
 
       <ContainerNewMeal>

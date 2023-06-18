@@ -1,5 +1,4 @@
 import styled from 'styled-components/native'
-import { SafeAreaView } from 'react-native-safe-area-context'
 
 interface ContainerProps {
   colors: 'default' | 'green' | 'red'
@@ -11,7 +10,7 @@ const COLORS_THEME = {
   red: 'red-light'
 } as const
 
-export const Container = styled(SafeAreaView)<ContainerProps>`
+export const Container = styled.View<ContainerProps>`
   flex: 1;
 
   background-color: ${props => props.theme.COLORS[COLORS_THEME[props.colors]]};
