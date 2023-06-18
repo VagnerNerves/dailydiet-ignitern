@@ -84,7 +84,7 @@ export function Home() {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2
                 })
-              : 0
+              : '0,00'
           }%`}
           description="das refeições dentro da dieta"
           style={{ marginBottom: 40 }}
@@ -118,7 +118,10 @@ export function Home() {
             <DateMeal>{title}</DateMeal>
           )}
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={[{ paddingBottom: 50, flex: 1 }]}
+          contentContainerStyle={{
+            paddingBottom: 50,
+            flex: listMeal.length > 0 ? 0 : 1
+          }}
           ListEmptyComponent={() => (
             <ContainerEmpty>
               <TextEmpty>Que tal cadastrar uma nova refeição?</TextEmpty>
