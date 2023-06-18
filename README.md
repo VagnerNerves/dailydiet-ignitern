@@ -1,5 +1,5 @@
 <p align="center">
-  <!-- <img width="200px" alt="Project Title Logo" title="Project Title Logo" src="logo.svg" /> -->
+  <img width="200px" alt="Project Title Logo" title="Project Title Logo" src="./.github/logodailydiet.svg" />
 
   <h1 align="center">Daily Diet</h1>
 
@@ -7,7 +7,7 @@
     🔗 <a href="https://URLThisProject.com">https://URLThisProject.com</a> 🔗
   </p> -->
 
-🚧 Project under construction 🚧
+Developed the Daily Diet project where you can register meals by entering the date and time, and indicating whether they are part of the diet or not. The system then calculates the percentage of adherence to the diet. Within the system, you can edit meals, delete them, and view statistics.
 
 </p>
 
