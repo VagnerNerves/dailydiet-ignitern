@@ -47,7 +47,7 @@ interface StatusProps {
   isDiet: Boolean
 }
 
-export const Status = styled.Text<StatusProps>`
+export const Status = styled.View<StatusProps>`
   width: 14px;
   height: 14px;
 
