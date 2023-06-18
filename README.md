@@ -16,6 +16,7 @@ Developed the Daily Diet project where you can register meals by entering the da
 - [🧭 Table of contents](#-table-of-contents)
 - [🎥 Implementation Video](#-implementation-video)
 - [🎨 Layout](#-layout)
+- [👏 Learning and more Implementations](#-learning-and-more-implementations)
 - [💡 Technologies Used](#-technologies-used)
 - [📂 Folder Structure](#-folder-structure)
 - [🚀 Running the Project](#-running-the-project)
@@ -33,9 +34,11 @@ Layout developed by [Millena Kupsinskü Martins](https://www.linkedin.com/in/mil
 
 [![Layout in Figma](https://github.com/VagnerNerves/default-readme/blob/main/assets/layout-in-figma.svg)](<https://www.figma.com/file/XjqDUrqZpi4G9aEnKmQeWC/Daily-Diet-(Copy)?type=design&node-id=1%3A3&t=UDbLxqrLgZr5WYno-1>)
 
-<!-- ## 👏 Learning and more Implementations
+## 👏 Learning and more Implementations
 
-Describe what you learned and implemented in the project. -->
+- Implemented the React Native Modal Datetime Picker in creating a new meal to select the date and time.
+- Implemented saving the meal by generating a UUID and storing it in local storage.
+- Formatted the dates and times using the date-fns library.
 
 ## 💡 Technologies Used
 
