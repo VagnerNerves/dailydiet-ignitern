@@ -25,7 +25,7 @@ Developed the Daily Diet project where you can register meals by entering the da
 
 ## 🎥 Implementation Video
 
-In the GitHub edit, drag the video that it already puts on github itself.
+https://github.com/VagnerNerves/dailydiet-ignitern/assets/40831841/0cd7d004-7b02-4881-8376-8f6090344328
 
 ## 🎨 Layout
 
@@ -173,7 +173,7 @@ Start the server
 
 ## 🌎 License
 
-This project is under the MIT license. See the [LICENSE](https://github.com/VagnerNerves/dailydiet-ignitern/blob/main/LICENSE) file for more details. -->
+This project is under the MIT license. See the [LICENSE](https://github.com/VagnerNerves/dailydiet-ignitern/blob/main/LICENSE) file for more details.
 
 ## ✒ Author
 
